@@ -12,7 +12,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
         final String dir = System.getProperty("user.dir") + "\\run";
-        Files.createDirectory(Path.of(dir));
+        Path path;
+        if (!Files.exists(path = Path.of(dir))) {
+            Files.createDirectory(path);
+        }
         System.out.println("output dir = " + dir);
 
         createMappings(dir);
