@@ -4,7 +4,11 @@ import org.omnimc.lumina.paser.IParser;
 import org.omnimc.lumina.paser.ParsingContainer;
 
 /**
- * <h6>Thank you Proguard for this code :)</h6>
+ * <h6>The {@code ProguardParser} class implements the {@linkplain IParser} interface to provide functionality
+ * for parsing ProGuard mapping files.
+ * <p>
+ *     This parser processes lines of mapping data and updates a
+ * {@linkplain ParsingContainer} with the parsed class, method, and field names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
@@ -12,6 +16,12 @@ import org.omnimc.lumina.paser.ParsingContainer;
 public class ProguardParser implements IParser {
     private String parentClass;
 
+    /**
+     * Parses a single line of ProGuard mapping data and updates the provided {@linkplain ParsingContainer}.
+     *
+     * @param line      the line of ProGuard mapping data to be parsed.
+     * @param container the {@linkplain ParsingContainer} to be updated with the parsed data.
+     */
     @Override
     public void run(String line, ParsingContainer container) {
         if (line.isEmpty()) {
@@ -43,6 +53,13 @@ public class ProguardParser implements IParser {
         }
     }
 
+    /**
+     * Processes a class member mapping and updates the {@linkplain ParsingContainer}.
+     *
+     * @param parentClass the parent class name.
+     * @param line        the line of class member mapping data.
+     * @param container   the {@linkplain ParsingContainer} to be updated with the parsed data.
+     */
     private void processClassMemberMapping(String parentClass, String line, ParsingContainer container) {
         int colonIndex1 = line.indexOf(':');
         int colonIndex2 = colonIndex1 < 0 ? -1 : line.indexOf(':', colonIndex1 + 1);
@@ -87,6 +104,13 @@ public class ProguardParser implements IParser {
         }
     }
 
+    /**
+     * Processes a class mapping and updates the {@linkplain ParsingContainer}.
+     *
+     * @param line      the line of class mapping data.
+     * @param container the {@linkplain ParsingContainer} to be updated with the parsed data.
+     * @return the new class name if mapping was successful, otherwise {@code null}.
+     */
     private String processClassMapping(String line, ParsingContainer container) {
         int arrowIndex = line.indexOf("->");
         if (arrowIndex < 0) {
@@ -107,10 +131,22 @@ public class ProguardParser implements IParser {
         return newClassName;
     }
 
+    /**
+     * Formats the method arguments.
+     *
+     * @param arguments the arguments to be formatted.
+     * @return the formatted arguments as a string.
+     */
     private String methodFormat(String arguments) {
         return "(" + method(arguments) + ")";
     }
 
+    /**
+     * Converts the method arguments into their primitive type representations.
+     *
+     * @param arguments the arguments to be converted.
+     * @return the converted arguments as a string.
+     */
     private String method(String arguments) {
         if (arguments.isEmpty()) {
             return arguments;
@@ -126,6 +162,12 @@ public class ProguardParser implements IParser {
         return returnBuilder.toString();
     }
 
+    /**
+     * Converts primitive types to their respective representations.
+     *
+     * @param input the input type to be converted.
+     * @return the converted type as a string.
+     */
     private String primitiveTypes(String input) {
         StringBuilder brackets = new StringBuilder();
 
