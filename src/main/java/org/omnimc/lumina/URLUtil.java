@@ -15,15 +15,15 @@ public final class URLUtil {
 
     public static InputStream getInputStreamFromURL(String url) throws IOException, InterruptedException {
         URI uri = URI.create(url);
-        try (HttpClient client = HttpClient.newHttpClient()) {
-            HttpRequest request = HttpRequest.newBuilder()
-                    .uri(uri)
-                    .GET()
-                    .build();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(uri)
+                .GET()
+                .build();
 
-            HttpResponse<InputStream> inputStreamResponse = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
-            return inputStreamResponse.body();
-        }
+        HttpResponse<InputStream> inputStreamResponse = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+        return inputStreamResponse.body();
+
     }
 
 }
