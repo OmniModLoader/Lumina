@@ -1,2 +1,3 @@
 # Lumina
-A mapping style for Minecraft Mappings.
+
+Mappings used by OmniMC
