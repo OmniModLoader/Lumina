@@ -41,8 +41,9 @@ public class LuminaWriter extends Writer {
      */
     private FileWriter methodWriter;
 
-    private final ParsingContainer container = new ParsingContainer() {
-    };
+    //@formatter:off
+    private final ParsingContainer container = new ParsingContainer() {};
+    //@formatter:on
 
     /**
      * Constructs a new {@code LuminaWriter} instance by reading Minecraft mappings from a URL.
