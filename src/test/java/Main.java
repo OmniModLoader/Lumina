@@ -4,13 +4,16 @@ import org.omnimc.lumina.reader.LuminaReader;
 import org.omnimc.lumina.writer.LuminaWriter;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @SuppressWarnings("NonFinalUtilityClass")
 public class Main {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        final String dir = System.getProperty("user.dir");
-        System.out.println("current dir = " + dir);
+        final String dir = System.getProperty("user.dir") + "\\run";
+        Files.createDirectory(Path.of(dir));
+        System.out.println("output dir = " + dir);
 
         createMappings(dir);
 
