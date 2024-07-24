@@ -16,6 +16,8 @@
     </repositories>
 
     <dependencies>
+        <!-- There's nothing we can do about this vuln as it's in a library used by a library used by RuntimeProfiler... -->
+        <!--suppress VulnerableLibrariesLocal -->
         <dependency>
             <groupId>com.github.7orivorian</groupId>
             <artifactId>RuntimeProfiler</artifactId>
