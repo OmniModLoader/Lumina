@@ -26,7 +26,7 @@ public class FieldParser implements IParser {
     @Override
     public void run(String line, ParsingContainer container) {
         if (line.contains(":")) {
-            parentClass = line.replace(":", " ");
+            parentClass = line.replace(":", "");
             return;
         }
 
