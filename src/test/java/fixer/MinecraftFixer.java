@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.util.HashMap;
 
 /**
+ * This is basically making the mapping files into our mapping style, this makes it so we dont get in trouble for using minecraft names
+ *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
