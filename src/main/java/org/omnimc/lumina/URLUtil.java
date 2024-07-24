@@ -15,6 +15,7 @@ public final class URLUtil {
 
     public static InputStream getInputStreamFromURL(String url) throws IOException, InterruptedException {
         URI uri = URI.create(url);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
