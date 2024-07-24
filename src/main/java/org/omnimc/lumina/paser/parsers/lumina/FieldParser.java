@@ -7,13 +7,14 @@ import org.omnimc.lumina.paser.ParsingContainer;
  * <h6>The {@code FieldParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing field mapping data.
  * <p>
- * This parser processes lines of field mappings and updates a
- * {@linkplain ParsingContainer} with the parsed field names.
+ * This parser processes lines of field mappings and updates a {@linkplain ParsingContainer} with the parsed field
+ * names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
 public class FieldParser implements IParser {
+
     private String parentClass;
 
     /**

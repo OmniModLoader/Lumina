@@ -1,5 +1,6 @@
 package org.omnimc.lumina.writer;
 
+import org.jetbrains.annotations.NotNull;
 import org.omnimc.lumina.URLUtil;
 import org.omnimc.lumina.paser.IParser;
 import org.omnimc.lumina.paser.ParsingContainer;
@@ -8,17 +9,21 @@ import java.io.*;
 import java.rmi.AccessException;
 
 /**
- * {@linkplain LuminaWriter} class reads Minecraft mapping URLs or files on the local computer,
- * parses them using the {@linkplain IParser}, and writes the parsed data into separate files
- * for {@linkplain LuminaWriter#createClassFile(File)}, {@linkplain LuminaWriter#createFieldFile(File)}, and {@linkplain LuminaWriter#createMethodFile(File)}.
+ * {@linkplain LuminaWriter} class reads Minecraft mapping URLs or files on the local computer, parses them using the
+ * {@linkplain IParser}, and writes the parsed data into separate files for
+ * {@linkplain LuminaWriter#createClassFile(File)}, {@linkplain LuminaWriter#createFieldFile(File)}, and
+ * {@linkplain LuminaWriter#createMethodFile(File)}.
  *
  * <p>
- * <b>Note:</b> Usage and modification of this class itself are not governed by the Minecraft End User License Agreement (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>).
- * However, any interaction with Minecraft mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a> and any other applicable licenses.
+ * <b>Note:</b> Usage and modification of this class itself are not governed by the Minecraft End User License
+ * Agreement
+ * (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>). However, any interaction with Minecraft
+ * mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
+ * and any other applicable licenses.
  * </p>
  *
- * @see <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
+ * @see <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
  * @since 1.0.0
  */
 public class LuminaWriter extends Writer {
@@ -67,7 +72,7 @@ public class LuminaWriter extends Writer {
      *
      * @param mappingsFile the file to read Minecraft mappings from.
      * @param parser       the parser to parse the mappings.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException              if an I/O error occurs.
      * @throws IllegalArgumentException if the provided {@code mappingsFile} is not a valid file.
      */
     public LuminaWriter(File mappingsFile, IParser parser) throws IOException {
@@ -183,7 +188,7 @@ public class LuminaWriter extends Writer {
      * @throws IOException always thrown to indicate this method is not accessible.
      */
     @Override
-    public void write(char[] cbuf, int off, int len) throws IOException {
+    public void write(char @NotNull [] cbuf, int off, int len) throws IOException {
         throw new AccessException("You cannot access this method.");
     }
 

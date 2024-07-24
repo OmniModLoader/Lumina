@@ -4,8 +4,8 @@ import java.io.Closeable;
 import java.util.HashMap;
 
 /**
- * The {@code ParsingContainer} class is an abstract class designed to hold and manage mappings of obfuscated
- * and unobfuscated names for classes, methods, parameters, and fields.
+ * The {@code ParsingContainer} class is an abstract class designed to hold and manage mappings of obfuscated and
+ * unobfuscated names for classes, methods, parameters, and fields.
  * <p>
  * This class provides methods to add, retrieve, and clear these mappings.
  * </p>
@@ -19,18 +19,18 @@ public abstract class ParsingContainer implements Closeable {
      */
     protected final HashMap<String, String> classNames = new HashMap<>();
     /**
-     * A {@code HashMap} to store method names. The outer map uses parent class names as keys,
-     * and the inner map uses obfuscated method names as keys and unobfuscated method names as values.
+     * A {@code HashMap} to store method names. The outer map uses parent class names as keys, and the inner map uses
+     * obfuscated method names as keys and unobfuscated method names as values.
      */
     protected final HashMap<String, HashMap<String, String>> methodNames = new HashMap<>();
     /**
-     * A {@code HashMap} to store parameter names. The outer map uses parent class names as keys,
-     * and the inner map uses obfuscated parameter names as keys and arrays of unobfuscated parameter names as values.
+     * A {@code HashMap} to store parameter names. The outer map uses parent class names as keys, and the inner map uses
+     * obfuscated parameter names as keys and arrays of unobfuscated parameter names as values.
      */
     protected final HashMap<String, HashMap<String, String[]>> parameterNames = new HashMap<>(); // todo
     /**
-     * A {@code HashMap} to store field names. The outer map uses parent class names as keys,
-     * and the inner map uses obfuscated field names as keys and unobfuscated field names as values.
+     * A {@code HashMap} to store field names. The outer map uses parent class names as keys, and the inner map uses
+     * obfuscated field names as keys and unobfuscated field names as values.
      */
     protected final HashMap<String, HashMap<String, String>> fieldNames = new HashMap<>();
 

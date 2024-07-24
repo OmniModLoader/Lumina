@@ -7,8 +7,8 @@ import org.omnimc.lumina.paser.ParsingContainer;
  * <h6>The {@code ProguardParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing ProGuard mapping files.
  * <p>
- *     This parser processes lines of mapping data and updates a
- * {@linkplain ParsingContainer} with the parsed class, method, and field names.
+ * This parser processes lines of mapping data and updates a {@linkplain ParsingContainer} with the parsed class,
+ * method, and field names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
@@ -182,7 +182,7 @@ public class ProguardParser implements IParser {
             }
         }
 
-        switch (input) { // I am so sorry JitPack wouldnt let me do it the clean way for some reason...
+        switch (input) { // I am so sorry JitPack wouldn't let me do it the clean way for some reason...
             case "boolean" -> {
                 return brackets + "Z";
             }

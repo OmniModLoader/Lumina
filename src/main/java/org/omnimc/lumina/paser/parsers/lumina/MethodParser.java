@@ -7,14 +7,14 @@ import org.omnimc.lumina.paser.ParsingContainer;
  * <h6>The {@code MethodParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing method mapping data.
  * <p>
- * This parser processes lines of method mappings and updates a
- * {@linkplain ParsingContainer} with the parsed method names.
- *
+ * This parser processes lines of method mappings and updates a {@linkplain ParsingContainer} with the parsed method
+ * names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
 public class MethodParser implements IParser {
+
     private String parentClass;
 
     /**

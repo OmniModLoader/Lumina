@@ -13,9 +13,17 @@ import java.net.http.HttpResponse;
  */
 public final class URLUtil {
 
+    /**
+     * Cannot be instantiated.
+     */
+    private URLUtil() {
+
+    }
+
     public static InputStream getInputStreamFromURL(String url) throws IOException, InterruptedException {
         URI uri = URI.create(url);
 
+        //noinspection resource
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(uri)
@@ -24,7 +32,5 @@ public final class URLUtil {
 
         HttpResponse<InputStream> inputStreamResponse = client.send(request, HttpResponse.BodyHandlers.ofInputStream());
         return inputStreamResponse.body();
-
     }
-
 }

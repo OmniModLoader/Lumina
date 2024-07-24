@@ -7,9 +7,8 @@ import org.omnimc.lumina.paser.ParsingContainer;
  * <h6>The {@code ClassParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing class mapping data.
  * <p>
- * This parser processes lines of class mappings and updates a
- * {@linkplain ParsingContainer} with the parsed class names.
- *
+ * This parser processes lines of class mappings and updates a {@linkplain ParsingContainer} with the parsed class
+ * names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0

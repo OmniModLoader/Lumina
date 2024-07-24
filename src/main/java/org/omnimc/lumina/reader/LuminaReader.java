@@ -10,20 +10,20 @@ import org.omnimc.lumina.paser.parsers.lumina.MethodParser;
 import java.io.*;
 
 /**
- * The {@code LuminaReader} class reads and populates a {@linkplain ParsingContainer}
- * with data from Minecraft mapping URLs or files on the local computer.
+ * The {@code LuminaReader} class reads and populates a {@linkplain ParsingContainer} with data from Minecraft mapping
+ * URLs or files on the local computer.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
-public class LuminaReader { // This reader, reads and populates a ParsingContainer.
+public class LuminaReader {
 
     /**
      * Reads Minecraft mappings from a URL and returns a populated {@linkplain ParsingContainer}.
      *
      * @param url the URL to read Minecraft mappings from.
      * @return a populated {@linkplain ParsingContainer}.
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException          if an I/O error occurs.
      * @throws InterruptedException if the thread is interrupted.
      */
     public ParsingContainer readURL(String url) throws IOException, InterruptedException { // todo
@@ -59,8 +59,8 @@ public class LuminaReader { // This reader, reads and populates a ParsingContain
     /**
      * Reads data from an input stream using a specified parser and populates the container.
      *
-     * @param location  the location of the file it will read out of.
-     * @param parser   the parser to parse the data.
+     * @param location         the location of the file it will read out of.
+     * @param parser           the parser to parse the data.
      * @param parsingContainer the container to populate with parsed data.
      * @throws IOException if an I/O error occurs.
      */
@@ -76,5 +76,4 @@ public class LuminaReader { // This reader, reads and populates a ParsingContain
             }
         }
     }
-
 }
