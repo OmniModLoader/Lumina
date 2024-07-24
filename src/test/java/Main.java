@@ -1,3 +1,4 @@
+import fixer.MinecraftFixer;
 import org.omnimc.lumina.paser.ParsingContainer;
 import org.omnimc.lumina.paser.parsers.ProguardParser;
 import org.omnimc.lumina.reader.LuminaReader;
@@ -19,6 +20,9 @@ public class Main {
         System.out.println("output dir = " + dir);
 
         createMappings(dir);
+
+        MinecraftFixer fixer = new MinecraftFixer();
+        fixer.fixFiles(dir);
 
         //getReader(dir);
     }
