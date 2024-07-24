@@ -41,10 +41,6 @@ public abstract class ParsingContainer implements Closeable {
      * @param unObfuscatedName the unobfuscated name of the class.
      */
     public void addClassName(String obfuscatedName, String unObfuscatedName) {
-        if (classNames.containsKey(obfuscatedName)) {
-            return;
-        }
-
         classNames.put(obfuscatedName, unObfuscatedName);
     }
 
