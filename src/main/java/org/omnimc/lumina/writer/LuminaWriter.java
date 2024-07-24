@@ -46,9 +46,7 @@ public class LuminaWriter extends Writer {
      */
     private FileWriter methodWriter;
 
-    //@formatter:off
-    private final ParsingContainer container = new ParsingContainer() {};
-    //@formatter:on
+    private final ParsingContainer container;
 
     /**
      * Constructs a new {@code LuminaWriter} instance by reading Minecraft mappings from a URL.
@@ -59,6 +57,10 @@ public class LuminaWriter extends Writer {
      * @throws InterruptedException if the thread is interrupted.
      */
     public LuminaWriter(String minecraftURL, IParser parser) throws IOException, InterruptedException {
+        //@formatter:off
+        this.container = new ParsingContainer() {};
+        //@formatter:on
+
         try (BufferedReader in = new BufferedReader(new InputStreamReader(URLUtil.getInputStreamFromURL(minecraftURL)))) {
             String inputLine;
             while ((inputLine = in.readLine()) != null) {
@@ -80,12 +82,26 @@ public class LuminaWriter extends Writer {
             throw new IllegalArgumentException("`mappingsFile` has to be an actual file not a directory!");
         }
 
+        //@formatter:off
+        this.container = new ParsingContainer() {};
+        //@formatter:on
+
         try (BufferedReader reader = new BufferedReader(new FileReader(mappingsFile))) {
             String inputLine;
             while ((inputLine = reader.readLine()) != null) {
                 parser.run(inputLine, container);
             }
         }
+    }
+
+    /**
+     *
+     * Constructs a new {@code LuminaWriter} instance by passing a {@linkplain ParsingContainer}.
+     *
+     * @param container the {@linkplain ParsingContainer} passed on to write to.
+     */
+    public LuminaWriter(@NotNull ParsingContainer container) {
+        this.container = container;
     }
 
     /**
