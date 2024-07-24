@@ -1,5 +1,3 @@
-package org.omnimc.lumina;
-
 import org.omnimc.lumina.paser.ParsingContainer;
 import org.omnimc.lumina.paser.parsers.ProguardParser;
 import org.omnimc.lumina.reader.LuminaReader;
@@ -7,12 +5,16 @@ import org.omnimc.lumina.writer.LuminaWriter;
 
 import java.io.IOException;
 
+@SuppressWarnings("NonFinalUtilityClass")
 public class Main {
+
     public static void main(String[] args) throws IOException, InterruptedException {
-        createMappings("C:\\Users\\CryroByte\\Desktop\\Lumina-github");
+        final String dir = System.getProperty("user.dir");
+        System.out.println("current dir = " + dir);
 
-        //getReader("C:\\Users\\CryroByte\\Desktop\\Lumina-github");
+        createMappings(dir);
 
+        //getReader(dir);
     }
 
     private static ParsingContainer getReader(String path) throws IOException {
