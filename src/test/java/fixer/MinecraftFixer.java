@@ -1,11 +1,14 @@
 package fixer;
 
+import org.jetbrains.annotations.NotNull;
 import org.omnimc.lumina.paser.ParsingContainer;
 import org.omnimc.lumina.reader.LuminaReader;
 import org.omnimc.lumina.writer.LuminaWriter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This is basically making the mapping files into our mapping style, this makes it so we dont get in trouble for using minecraft names
@@ -65,16 +68,65 @@ public class MinecraftFixer {
     private void fixMethods(ParsingContainer parsingContainer) { // todo someone help me
         HashMap<String, HashMap<String, String>> methodTempMap = new HashMap<>(parsingContainer.getMethodNames());
 
-        methodTempMap.forEach((parentClass, hashMap) -> {
+        for (Map.Entry<String, HashMap<String, String>> methodTempMapEntry : methodTempMap.entrySet()) {
+            String parentClass = methodTempMapEntry.getKey();
 
-            hashMap.forEach((obfuscatedName, unObfuscatedName) -> { // M_0000001
+            for (Map.Entry<String, String> methodTempEntry : methodTempMapEntry.getValue().entrySet()) {
+                String obfuscatedName = methodTempEntry.getKey();
+                String unObfuscatedName = methodTempEntry.getValue();
+
                 String[] split = obfuscatedName.split("\\(");
                 String name = split[0];
-                String descriptor = split[1].replace(")", " ");
+                String descriptor = getDescriptorString(split);
+
+                if (shouldSkip(name)) {
+                    parsingContainer.addMethodName(parentClass, name + descriptor, unObfuscatedName);
+                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                    continue;
+                }
+
+                String hierarchy = customMethodMappings.get(unObfuscatedName + descriptor);
+                if (hierarchy != null) {
+                    System.out.println("Hierarchy found! ");
+                    parsingContainer.addMethodName(parentClass, name + descriptor, hierarchy);
+                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                } else {
+                    System.out.println("Making a mapping for: " + unObfuscatedName + descriptor);
+                    String randomMethodName = StringRandom.randomMethodName();
+                    customMethodMappings.put(unObfuscatedName + descriptor, randomMethodName);
+                    parsingContainer.addMethodName(parentClass, name + descriptor, randomMethodName);
+                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                }
+            }
+        }
+
+/*        methodTempMap.forEach((parentClass, hashMap) -> {
+
+            hashMap.forEach((obfuscatedName, unObfuscatedName) -> { // M_0000001
+
+                customClassMappings.forEach((unObfuscatedName1, fixedName) -> { // Super brute force, this can be fixed;
+                    if (descriptor[0].contains(unObfuscatedName1)) {
+                        descriptor[0] = descriptor[0].replace(unObfuscatedName1, fixedName);
+                    }
+                });
 
 
             });
-        });
+        });*/
+    }
+
+    private @NotNull String getDescriptorString(String[] split) {
+        String descriptor = "(" + split[1];
+
+        for (Map.Entry<String, String> customClassMappings : customClassMappings.entrySet()) { // This is Brute force on steroids
+            String unObfClassName = customClassMappings.getKey();
+            String fixedName = customClassMappings.getValue();
+
+            if (descriptor.contains(unObfClassName)) {
+                descriptor = descriptor.replace(unObfClassName, fixedName);
+            }
+        }
+        return descriptor;
     }
 
     private void fixFields(ParsingContainer parsingContainer) {

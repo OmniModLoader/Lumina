@@ -22,8 +22,8 @@ public class Main {
 
         createMappings(dir);
 
-    /*    MinecraftFixer fixer = new MinecraftFixer();
-        fixer.fixFiles(dir);*/
+        MinecraftFixer fixer = new MinecraftFixer();
+        fixer.fixFiles(dir);
 
         //getReader(dir);
     }
@@ -34,7 +34,7 @@ public class Main {
     }
 
     private static void createMappings(String path) throws IOException, InterruptedException {
-        LuminaWriter writer = new LuminaWriter("https://piston-data.mojang.com/v1/objects/0530a206839eb1e9b35ec86acbbe394b07a2d9fb/client.txt", new LuminaParser());
+        LuminaWriter writer = new LuminaWriter("https://piston-data.mojang.com/v1/objects/0530a206839eb1e9b35ec86acbbe394b07a2d9fb/client.txt", new ProguardParser());
         writer.writeTo(path);
         writer.flush();
         writer.close();
