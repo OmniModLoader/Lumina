@@ -1,9 +1,13 @@
 jdk:
   - openjdk21
+
 before_install:
+  - curl -s "https://get.sdkman.io" | bash
+  - source "$HOME/.sdkman/bin/sdkman-init.sh"
   - sdk install java 21.0.0-open
   - sdk use java 21.0.0-open
   - sdk install maven
   - mvn -v
+
 install:
   - mvn install -Dmaven.javadoc.skip=true -DskipTests
