@@ -6,7 +6,7 @@
 
     <groupId>org.omnimc.lumina</groupId>
     <artifactId>Lumina</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <repositories>
         <repository>
@@ -42,11 +42,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
-
 </project>
