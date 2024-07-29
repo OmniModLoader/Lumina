@@ -6,7 +6,7 @@
 
     <groupId>org.omnimc.lumina</groupId>
     <artifactId>Lumina</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
 
     <repositories>
         <repository>
@@ -39,7 +39,14 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin><plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><configuration><source>21</source><target>21</target></configuration></plugin>
+            </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
 </project>
