@@ -2,11 +2,11 @@ jdk:
   - openjdk21
 
 before_install:
-  - curl -s "https://get.sdkman.io" | bash
+  - curl -s "https://get.sdkman.io" | bash || { echo "SDKMAN installation failed"; exit 1; }
   - source "$HOME/.sdkman/bin/sdkman-init.sh"
-  - sdk install java 21.0.0-open
-  - sdk use java 21.0.0-open
-  - sdk install maven
+  - sdk install java 21.0.0-open || { echo "Java installation failed"; exit 1; }
+  - sdk use java 21.0.0-open || { echo "Java selection failed"; exit 1; }
+  - sdk install maven || { echo "Maven installation failed"; exit 1; }
   - mvn -v
 
 install:
