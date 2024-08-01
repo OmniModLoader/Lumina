@@ -22,8 +22,10 @@ public class Main {
 
         createMappings(dir);
 
+/*
         MinecraftFixer fixer = new MinecraftFixer();
         fixer.fixFiles(dir);
+*/
 
         //getReader(dir);
     }

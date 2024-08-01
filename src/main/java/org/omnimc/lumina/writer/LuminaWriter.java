@@ -133,11 +133,11 @@ public class LuminaWriter extends Writer {
         fieldWriter = new FileWriter(fields);
         container.getFieldNames().forEach((parentName, hashMap) -> {
             try {
-                fieldWriter.write(parentName + ":\r\n");
+                fieldWriter.write(parentName + ":\n");
 
                 hashMap.forEach((obfuscatedName, unObfuscatedName) -> {
                     try {
-                        fieldWriter.write(obfuscatedName + " " + unObfuscatedName + "\r\n");
+                        fieldWriter.write(obfuscatedName + " " + unObfuscatedName + "\n");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -161,10 +161,10 @@ public class LuminaWriter extends Writer {
         methodWriter = new FileWriter(methods);
         container.getMethodNames().forEach((parentName, hashMap) -> {
             try {
-                methodWriter.write(parentName + ":\r\n");
+                methodWriter.write(parentName + ":\n");
                 hashMap.forEach((obfuscatedName, unObfuscatedName) -> {
                     try {
-                        methodWriter.write(obfuscatedName + " " + unObfuscatedName + "\r\n");
+                        methodWriter.write(obfuscatedName + " " + unObfuscatedName + "\n");
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
@@ -188,7 +188,7 @@ public class LuminaWriter extends Writer {
         classWriter = new FileWriter(classes);
         container.getClassNames().forEach((obfuscatedName, unObfuscatedName) -> {
             try {
-                classWriter.write(obfuscatedName + ":" + unObfuscatedName + "\r\n");
+                classWriter.write(obfuscatedName + ":" + unObfuscatedName + "\n");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
