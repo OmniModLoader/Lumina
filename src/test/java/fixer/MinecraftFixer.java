@@ -80,7 +80,7 @@ public class MinecraftFixer {
 
                 if (shouldSkip(name)) {
                     parsingContainer.addMethodName(parentClass, name + descriptor, unObfuscatedName);
-                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                    //parsingContainer.removeMethodName(parentClass, name + split[0]);
                     continue;
                 }
 
@@ -88,13 +88,13 @@ public class MinecraftFixer {
                 if (hierarchy != null) {
                     System.out.println("Hierarchy found! ");
                     parsingContainer.addMethodName(parentClass, name + descriptor, hierarchy);
-                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                    //parsingContainer.removeMethodName(parentClass, name + split[0]);
                 } else {
                     System.out.println("Making a mapping for: " + unObfuscatedName + descriptor);
                     String randomMethodName = StringRandom.randomMethodName();
                     customMethodMappings.put(unObfuscatedName + descriptor, randomMethodName);
                     parsingContainer.addMethodName(parentClass, name + descriptor, randomMethodName);
-                    parsingContainer.removeMethodName(parentClass, name + split[0]);
+                    //parsingContainer.removeMethodName(parentClass, name + split[0]);
                 }
             }
         }

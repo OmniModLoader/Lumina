@@ -4,38 +4,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-/**
- * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
- * @since 1.0.0
- */
+@Deprecated
 public class MethodInfo {
     private final String obfuscatedName;
     private String methodName;
     private String descriptor;
 
-    public MethodInfo(String obfuscatedName, String methodName, String descriptor) {
+    public MethodInfo(@NotNull String obfuscatedName, @NotNull String methodName, @NotNull String descriptor) {
         this.obfuscatedName = obfuscatedName;
         this.methodName = methodName;
         this.descriptor = descriptor;
     }
 
+    @NotNull
     public String getObfuscatedName() {
         return obfuscatedName;
     }
 
+    @NotNull
     public String getMethodName() {
         return methodName;
     }
 
-    public void setMethodName(String methodName) {
+    public void setMethodName(@NotNull String methodName) {
         this.methodName = methodName;
     }
 
+    @NotNull
     public String getDescriptor() {
         return descriptor;
     }
 
-    public void setDescriptor(String descriptor) {
+    public void setDescriptor(@NotNull String descriptor) {
         this.descriptor = descriptor;
     }
 

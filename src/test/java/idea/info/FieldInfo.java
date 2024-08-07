@@ -4,38 +4,38 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-/**
- * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
- * @since 1.0.0
- */
+@Deprecated
 public class FieldInfo {
     private final String obfuscatedName;
     private String fieldName;
     private String descriptor;
 
-    public FieldInfo(String obfuscatedName, String fieldName, String descriptor) {
+    public FieldInfo(@NotNull String obfuscatedName, @NotNull String fieldName, @NotNull String descriptor) {
         this.obfuscatedName = obfuscatedName;
         this.fieldName = fieldName;
         this.descriptor = descriptor;
     }
 
+    @NotNull
     public String getObfuscatedName() {
         return obfuscatedName;
     }
 
+    @NotNull
     public String getFieldName() {
         return fieldName;
     }
 
-    public void setFieldName(String fieldName) {
+    public void setFieldName(@NotNull String fieldName) {
         this.fieldName = fieldName;
     }
 
+    @NotNull
     public String getDescriptor() {
         return descriptor;
     }
 
-    public void setDescriptor(String descriptor) {
+    public void setDescriptor(@NotNull String descriptor) {
         this.descriptor = descriptor;
     }
 

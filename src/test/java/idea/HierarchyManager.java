@@ -3,19 +3,23 @@ package idea;
 import idea.info.ClassInfo;
 import idea.info.FieldInfo;
 import idea.info.MethodInfo;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class HierarchyManager {
     private final HashMap<String, ClassInfo> classFiles = new HashMap<>();
 
+    @NotNull
     public HashMap<String, ClassInfo> getClassFiles() {
         return classFiles;
     }
 
-    public void addClassFile(String name, ClassInfo file) {
+    public void addClassFile(@NotNull String name, @NotNull ClassInfo file) {
         if (classFiles.containsKey(name)) {
             return;
         }
@@ -23,8 +27,9 @@ public class HierarchyManager {
         classFiles.put(name, file);
     }
 
-    public MethodInfo getMethod(String owner, String obfuscatedName, String descriptor) {
-        ClassInfo classInfo = classFiles.get(owner);
+    @Nullable
+    public MethodInfo getMethod(@NotNull String owner, @NotNull String obfuscatedName, @NotNull String descriptor) {
+        final ClassInfo classInfo = classFiles.get(owner);
         if (classInfo == null) {
             return null;
         }
@@ -32,8 +37,9 @@ public class HierarchyManager {
         return classInfo.getMethods().getOrDefault(obfuscatedName + descriptor, null);
     }
 
-    public String getMethodName(String owner, String obfuscatedName, String descriptor) {
-        MethodInfo method = this.getMethod(owner, obfuscatedName, descriptor);
+    @NotNull
+    public String getMethodName(@NotNull String owner, @NotNull String obfuscatedName, @NotNull String descriptor) {
+        final MethodInfo method = this.getMethod(owner, obfuscatedName, descriptor);
         if (method == null) {
             return obfuscatedName;
         }
@@ -41,8 +47,9 @@ public class HierarchyManager {
         return method.getMethodName();
     }
 
-    public FieldInfo getField(String owner, String obfuscatedName, String descriptor) {
-        ClassInfo classInfo = classFiles.get(owner);
+    @Nullable
+    public FieldInfo getField(@NotNull String owner, @NotNull String obfuscatedName, @NotNull String descriptor) {
+        final ClassInfo classInfo = classFiles.get(owner);
         if (classInfo == null) {
             return null;
         }
@@ -50,8 +57,9 @@ public class HierarchyManager {
         return classInfo.getFields().getOrDefault(obfuscatedName + descriptor, null);
     }
 
-    public String getFieldName(String owner, String obfuscatedName, String descriptor) {
-        FieldInfo field = this.getField(owner, obfuscatedName, descriptor);
+    @NotNull
+    public String getFieldName(@NotNull String owner, @NotNull String obfuscatedName, @NotNull String descriptor) {
+        final FieldInfo field = this.getField(owner, obfuscatedName, descriptor);
         if (field == null) {
             return obfuscatedName;
         }
@@ -60,7 +68,7 @@ public class HierarchyManager {
     }
 
     public void populateClassFiles() {
-        HashMap<String, ClassInfo> classFileHashMap = new HashMap<>();
+        final HashMap<String, ClassInfo> classFileHashMap = new HashMap<>();
 
         for (Map.Entry<String, ClassInfo> entry : classFiles.entrySet()) {
             String className = entry.getKey();

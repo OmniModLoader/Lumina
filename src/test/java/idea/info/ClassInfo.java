@@ -1,9 +1,12 @@
 package idea.info;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
+@Deprecated
 public class ClassInfo {
     private final String className;
 
@@ -14,19 +17,21 @@ public class ClassInfo {
     private final HashMap<String, MethodInfo> methods = new HashMap<>();
     private final HashMap<String, MethodInfo> privateMethods = new HashMap<>();
 
-    public ClassInfo(String className) {
+    public ClassInfo(@NotNull String className) {
         this.className = className;
     }
 
+    @NotNull
     public String getClassName() {
         return className;
     }
 
+    @NotNull
     public ArrayList<String> getDependentClasses() {
         return dependentClasses;
     }
 
-    public void addDependentClass(String className) {
+    public void addDependentClass(@NotNull String className) {
         if (dependentClasses.contains(className)) {
             return;
         }
@@ -34,11 +39,12 @@ public class ClassInfo {
         dependentClasses.add(className);
     }
 
+    @NotNull
     public HashMap<String, MethodInfo> getMethods() {
         return methods;
     }
 
-    public void addMethod(String obfuscatedName, String unObfuscatedName, String descriptor) {
+    public void addMethod(@NotNull String obfuscatedName, @NotNull String unObfuscatedName, @NotNull String descriptor) {
         if (methods.containsKey(obfuscatedName)) {
             return;
         }
@@ -46,11 +52,12 @@ public class ClassInfo {
         methods.put(obfuscatedName + descriptor, new MethodInfo(obfuscatedName, unObfuscatedName, descriptor));
     }
 
+    @NotNull
     public HashMap<String, FieldInfo> getFields() {
         return fields;
     }
 
-    public void addField(String obfuscatedName, String unObfuscatedName, String descriptor) {
+    public void addField(@NotNull String obfuscatedName, @NotNull String unObfuscatedName, @NotNull String descriptor) {
         if (fields.containsKey(obfuscatedName)) {
             return;
         }
@@ -58,11 +65,12 @@ public class ClassInfo {
         fields.put(obfuscatedName + descriptor, new FieldInfo(obfuscatedName, unObfuscatedName, descriptor));
     }
 
+    @NotNull
     public HashMap<String, FieldInfo> getPrivateFields() {
         return privateFields;
     }
 
-    public void addPrivateField(String obfuscatedName, String unObfuscatedName, String descriptor) {
+    public void addPrivateField(@NotNull String obfuscatedName, @NotNull String unObfuscatedName, @NotNull String descriptor) {
         if (privateFields.containsKey(obfuscatedName)) {
             return;
         }
@@ -70,11 +78,12 @@ public class ClassInfo {
         privateFields.put(obfuscatedName + descriptor, new FieldInfo(obfuscatedName, unObfuscatedName, descriptor));
     }
 
+    @NotNull
     public HashMap<String, MethodInfo> getPrivateMethods() {
         return privateMethods;
     }
 
-    public void addPrivateMethod(String obfuscatedName, String unObfuscatedName, String descriptor) {
+    public void addPrivateMethod(@NotNull String obfuscatedName, @NotNull String unObfuscatedName, @NotNull String descriptor) {
         if (privateMethods.containsKey(obfuscatedName)) {
             return;
         }

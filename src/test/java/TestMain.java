@@ -1,5 +1,3 @@
-import dev.tori.runtimeprofiler.Profiler;
-import dev.tori.runtimeprofiler.write.OutputWriter;
 import idea.HierarchyManager;
 import idea.hierarchy.HierarchyVisitor;
 import idea.info.ClassInfo;

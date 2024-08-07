@@ -98,19 +98,6 @@ public abstract class ParsingContainer implements Closeable {
         return tempMap.getOrDefault(obfuscatedName + descriptor, obfuscatedName);
     }
 
-    public boolean removeMethodName(String parentClass, String obfuscatedName) {
-        HashMap<String, String> map = methodNames.get(parentClass);
-        if (map == null) {
-            return false;
-        }
-
-        if (map.get(obfuscatedName) == null) {
-            return false;
-        }
-
-        return map.remove(obfuscatedName) != null;
-    }
-
     /**
      * Retrieves all method name mappings.
      *

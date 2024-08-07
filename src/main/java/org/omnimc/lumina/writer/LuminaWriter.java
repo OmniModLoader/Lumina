@@ -1,114 +1,72 @@
 package org.omnimc.lumina.writer;
 
 import org.jetbrains.annotations.NotNull;
-import org.omnimc.lumina.URLUtil;
 import org.omnimc.lumina.paser.IParser;
 import org.omnimc.lumina.paser.ParsingContainer;
 
-import java.io.*;
-import java.rmi.AccessException;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
- * {@linkplain LuminaWriter} class reads Minecraft mapping URLs or files on the local computer, parses them using the
- * {@linkplain IParser}, and writes the parsed data into separate files for
- * {@linkplain LuminaWriter#createClassFile(File)}, {@linkplain LuminaWriter#createFieldFile(File)}, and
- * {@linkplain LuminaWriter#createMethodFile(File)}.
+ * {@code LuminaWriter} is a concrete implementation of {@linkplain AbstractWriter} that handles writing
+ * Minecraft mapping data to files. It reads data from URLs or files, parses it using the provided parser,
+ * and then writes the parsed data into separate files for classes, methods, and fields.
  *
- * <p>
- * <b>Note:</b> Usage and modification of this class itself are not governed by the Minecraft End User License
- * Agreement
- * (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>). However, any interaction with Minecraft
- * mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
- * and any other applicable licenses.
- * </p>
+ * <p><b>Note:</b> The use of this class itself is not governed by the Minecraft End User License Agreement
+ * (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>), but any interaction with
+ * Minecraft mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft
+ * EULA</a> and any other applicable licenses.</p>
  *
- * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
+ * @author <b><a href="https://github.com/CadenCCC">Caden</a></b>
  * @see <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
  * @since 1.0.0
  */
-public class LuminaWriter extends Writer {
-    /**
-     * FileWriter for the class File
-     * <p>
-     * Usage can be found here {@linkplain LuminaWriter#createClassFile(File)}
-     */
+public class LuminaWriter extends AbstractWriter {
     private FileWriter classWriter;
-    /**
-     * FileWriter for the field File
-     * <p>
-     * Usage can be found here {@linkplain LuminaWriter#createFieldFile(File)}
-     */
     private FileWriter fieldWriter;
-    /**
-     * FileWriter for the method File
-     * <p>
-     * Usage can be found here {@linkplain LuminaWriter#createMethodFile(File)}
-     */
     private FileWriter methodWriter;
 
-    private final ParsingContainer container;
-
     /**
-     * Constructs a new {@code LuminaWriter} instance by reading Minecraft mappings from a URL.
+     * <h6>Creates a {@code LuminaWriter} instance by reading and parsing data from a URL.
      *
-     * @param minecraftURL the URL to read Minecraft mappings from.
-     * @param parser       the parser to parse the mappings.
-     * @throws IOException          if an I/O error occurs.
-     * @throws InterruptedException if the thread is interrupted.
+     * @param minecraftURL the URL to read Minecraft mapping data from.
+     * @param parser       the parser to use for processing the data.
+     * @throws IOException          if there are issues with input/output operations.
+     * @throws InterruptedException if the operation is interrupted.
      */
-    public LuminaWriter(String minecraftURL, IParser parser) throws IOException, InterruptedException {
-        //@formatter:off
-        this.container = new ParsingContainer() {};
-        //@formatter:on
-
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(URLUtil.getInputStreamFromURL(minecraftURL)))) {
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                parser.run(inputLine, container);
-            }
-        }
+    public LuminaWriter(@NotNull String minecraftURL, @NotNull IParser parser) throws IOException, InterruptedException {
+        super(minecraftURL, parser);
     }
 
     /**
-     * Constructs a new {@code LuminaWriter} instance by reading Minecraft mappings from a file.
+     * <h6>Creates a {@code LuminaWriter} instance by reading and parsing data from a file.
      *
-     * @param mappingsFile the file to read Minecraft mappings from.
-     * @param parser       the parser to parse the mappings.
-     * @throws IOException              if an I/O error occurs.
-     * @throws IllegalArgumentException if the provided {@code mappingsFile} is not a valid file.
+     * @param mappingsFile the file to read Minecraft mapping data from.
+     * @param parser       the parser to use for processing the data.
+     * @throws IOException              if there are issues with input/output operations.
+     * @throws IllegalArgumentException if the provided file is not valid.
      */
-    public LuminaWriter(File mappingsFile, IParser parser) throws IOException {
-        if (!mappingsFile.isFile()) {
-            throw new IllegalArgumentException("`mappingsFile` has to be an actual file not a directory!");
-        }
-
-        //@formatter:off
-        this.container = new ParsingContainer() {};
-        //@formatter:on
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(mappingsFile))) {
-            String inputLine;
-            while ((inputLine = reader.readLine()) != null) {
-                parser.run(inputLine, container);
-            }
-        }
+    public LuminaWriter(@NotNull File mappingsFile, @NotNull IParser parser) throws IOException {
+        super(mappingsFile, parser);
     }
 
     /**
+     * <h6>Creates a {@code LuminaWriter} instance with a pre-populated {@linkplain ParsingContainer}.
      *
-     * Constructs a new {@code LuminaWriter} instance by passing a {@linkplain ParsingContainer}.
-     *
-     * @param container the {@linkplain ParsingContainer} passed on to write to.
+     * @param container the container with pre-parsed data.
      */
     public LuminaWriter(@NotNull ParsingContainer container) {
-        this.container = container;
+        super(container);
     }
 
     /**
-     * Writes the parsed data to the specified location.
+     * <h6>Writes the parsed data to the specified location.
      *
-     * @param fileLocation the location to write the files to.
-     * @throws IOException if an I/O error occurs.
+     * <p>This method creates files for class, method, and field mappings in the specified directory.</p>
+     *
+     * @param fileLocation the directory where the files will be written.
+     * @throws IOException if an error occurs while writing the files.
      */
     public void writeTo(String fileLocation) throws IOException {
         File location = new File(fileLocation);
@@ -122,10 +80,10 @@ public class LuminaWriter extends Writer {
     }
 
     /**
-     * Creates a file containing field mappings.
+     * <h6>Creates a file with field mappings.
      *
-     * @param location the location to create the file.
-     * @throws IOException if an I/O error occurs.
+     * @param location the directory where the file will be created.
+     * @throws IOException if an error occurs while creating or writing to the file.
      */
     private void createFieldFile(File location) throws IOException {
         File fields = new File(location, "fields.mapping");
@@ -150,10 +108,10 @@ public class LuminaWriter extends Writer {
     }
 
     /**
-     * Creates a file containing method mappings.
+     * <h6>Creates a file with method mappings.
      *
-     * @param location the location to create the file.
-     * @throws IOException if an I/O error occurs.
+     * @param location the directory where the file will be created.
+     * @throws IOException if an error occurs while creating or writing to the file.
      */
     private void createMethodFile(File location) throws IOException {
         File methods = new File(location, "methods.mapping");
@@ -177,10 +135,10 @@ public class LuminaWriter extends Writer {
     }
 
     /**
-     * Creates a file containing class mappings.
+     * <h6>Creates a file with class mappings.
      *
-     * @param location the location to create the file.
-     * @throws IOException if an I/O error occurs.
+     * @param location the directory where the file will be created.
+     * @throws IOException if an error occurs while creating or writing to the file.
      */
     private void createClassFile(File location) throws IOException {
         File classes = new File(location, "classes.mapping");
@@ -196,22 +154,9 @@ public class LuminaWriter extends Writer {
     }
 
     /**
-     * This method is not accessible in this class.
+     * <h6>Flushes any buffered data to the files.
      *
-     * @param cbuf the buffer to write.
-     * @param off  the offset within the buffer.
-     * @param len  the length of data to write.
-     * @throws IOException always thrown to indicate this method is not accessible.
-     */
-    @Override
-    public void write(char @NotNull [] cbuf, int off, int len) throws IOException {
-        throw new AccessException("You cannot access this method.");
-    }
-
-    /**
-     * Flushes the writers for class, field, and method files.
-     *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException if an error occurs during flushing.
      */
     @Override
     public void flush() throws IOException {
@@ -229,9 +174,9 @@ public class LuminaWriter extends Writer {
     }
 
     /**
-     * Closes the writers for class, field, and method files, and clears the container.
+     * <h6>Closes all open file writers and clears the container.
      *
-     * @throws IOException if an I/O error occurs.
+     * @throws IOException if an error occurs while closing the writers.
      */
     @Override
     public void close() throws IOException {

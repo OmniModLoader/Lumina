@@ -9,10 +9,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.Remapper;
 import org.omnimc.lumina.paser.ParsingContainer;
 
-/**
- * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
- * @since 1.0.0
- */
+@Deprecated
 public class HierarchyVisitor extends ClassVisitor {
     private String originalClassName;
     private ClassInfo classInfo;
@@ -72,7 +69,7 @@ public class HierarchyVisitor extends ClassVisitor {
     }
 
     static class CustomRemapper extends Remapper {
-        public ParsingContainer container;
+        private final ParsingContainer container;
 
         public CustomRemapper(ParsingContainer container) {
             this.container = container;
