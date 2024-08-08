@@ -23,6 +23,7 @@ import java.io.IOException;
  * @since 1.0.0
  */
 public class LuminaWriter extends AbstractWriter {
+
     private FileWriter classWriter;
     private FileWriter fieldWriter;
     private FileWriter methodWriter;

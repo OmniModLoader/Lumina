@@ -14,6 +14,7 @@ import java.util.HashMap;
  * @since 1.0.0
  */
 public abstract class ParsingContainer implements Closeable {
+
     /**
      * A {@code HashMap} to store class names with obfuscated names as keys and unobfuscated names as values.
      */

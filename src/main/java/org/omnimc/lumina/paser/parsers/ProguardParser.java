@@ -14,6 +14,7 @@ import org.omnimc.lumina.paser.ParsingContainer;
  * @since 1.0.0
  */
 public class ProguardParser implements IParser {
+
     private String parentClass;
 
     /**

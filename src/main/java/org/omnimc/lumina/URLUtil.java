@@ -17,6 +17,7 @@ public final class URLUtil {
      * Cannot be instantiated.
      */
     private URLUtil() {
+
     }
 
     public static InputStream getInputStreamFromURL(String url) throws IOException, InterruptedException {
