@@ -55,6 +55,7 @@ public class LuminaReader extends AbstractReader {
      * @throws IOException          if something goes wrong with the input/output operations.
      * @throws InterruptedException if the operation is interrupted while fetching data.
      */
+    @Override
     public ParsingContainer readURL(String url) throws IOException, InterruptedException { // todo
         InputStream classes = URLUtil.getInputStreamFromURL(url + "/classes.mapping");
         InputStream methods = URLUtil.getInputStreamFromURL(url + "/methods.mapping");
@@ -73,6 +74,7 @@ public class LuminaReader extends AbstractReader {
      * @return a {@linkplain ParsingContainer} filled with the mapping data.
      * @throws IOException if there’s an issue reading the files.
      */
+    @Override
     public ParsingContainer readPath(String path) throws IOException {
         File location = new File(path);
         if (location.isFile()) {

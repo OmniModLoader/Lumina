@@ -69,6 +69,7 @@ public class LuminaWriter extends AbstractWriter {
      * @param fileLocation the directory where the files will be written.
      * @throws IOException if an error occurs while writing the files.
      */
+    @Override
     public void writeTo(String fileLocation) throws IOException {
         File location = new File(fileLocation);
         if (location.isFile()) {
