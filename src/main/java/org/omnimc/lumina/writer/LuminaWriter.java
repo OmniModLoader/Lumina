@@ -9,14 +9,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * {@code LuminaWriter} is a concrete implementation of {@linkplain AbstractWriter} that handles writing
- * Minecraft mapping data to files. It reads data from URLs or files, parses it using the provided parser,
- * and then writes the parsed data into separate files for classes, methods, and fields.
+ * {@link LuminaWriter} is a concrete implementation of {@linkplain AbstractWriter} that handles writing Minecraft
+ * mapping data to files. It reads data from URLs or files, parses it using the provided parser, and then writes the
+ * parsed data into separate files for classes, methods, and fields.
  *
- * <p><b>Note:</b> The use of this class itself is not governed by the Minecraft End User License Agreement
- * (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>), but any interaction with
- * Minecraft mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft
- * EULA</a> and any other applicable licenses.</p>
+ * <p>
+ * <b>Note:</b> The use of this class itself is not governed by the
+ * <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>, but any
+ * interaction with Minecraft mappings or data is subject to the
+ * <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a> and any other applicable
+ * licenses.
+ * </p>
  *
  * @author <b><a href="https://github.com/CadenCCC">Caden</a></b>
  * @see <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
