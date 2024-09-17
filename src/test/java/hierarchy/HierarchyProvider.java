@@ -36,7 +36,6 @@ import org.omnimc.trix.hierarchy.HierarchyManager;
 import org.omnimc.trix.hierarchy.info.ClassInfo;
 import org.omnimc.trix.hierarchy.info.FieldInfo;
 import org.omnimc.trix.hierarchy.info.MethodInfo;
-import org.omnimc.trix.visitors.hierarchy.HierarchyClassVisitor;
 
 import java.io.File;
 import java.io.IOException;

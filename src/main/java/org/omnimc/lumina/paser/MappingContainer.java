@@ -1,10 +1,9 @@
 package org.omnimc.lumina.paser;
 
-import java.io.Closeable;
 import java.util.HashMap;
 
 /**
- * The {@code ParsingContainer} class is an abstract class designed to hold and manage mappings of obfuscated and
+ * The {@code MappingContainer} class is an abstract class designed to hold and manage mappings of obfuscated and
  * unobfuscated names for classes, methods, parameters, and fields.
  * <p>
  * This class provides methods to add, retrieve, and clear these mappings.
@@ -13,7 +12,7 @@ import java.util.HashMap;
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
-public abstract class ParsingContainer implements Closeable {
+public class MappingContainer {
     /**
      * A {@code HashMap} to store class names with obfuscated names as keys and unobfuscated names as values.
      */
@@ -150,13 +149,10 @@ public abstract class ParsingContainer implements Closeable {
         return fieldNames;
     }
 
-    /**
-     * Closes the container by clearing all stored mappings.
-     */
-    @Override
-    public void close() {
-        fieldNames.clear();
-        methodNames.clear();
-        classNames.clear();
+    public void addAll(MappingContainer other) {
+        fieldNames.putAll(other.fieldNames);
+        methodNames.putAll(other.methodNames);
+        classNames.putAll(other.classNames);
+        parameterNames.putAll(other.parameterNames);
     }
 }
