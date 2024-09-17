@@ -1,10 +1,9 @@
 package org.omnimc.lumina.paser;
 
-import java.io.Closeable;
 import java.util.HashMap;
 
 /**
- * The {@code ParsingContainer} class is an abstract class designed to hold and manage mappings of obfuscated and
+ * The {@code MappingContainer} class is an abstract class designed to hold and manage mappings of obfuscated and
  * unobfuscated names for classes, methods, parameters, and fields.
  * <p>
  * This class provides methods to add, retrieve, and clear these mappings.
@@ -13,7 +12,7 @@ import java.util.HashMap;
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
  * @since 1.0.0
  */
-public abstract class ParsingContainer implements Closeable {
+public class MappingContainer {
     /**
      * A {@code HashMap} to store class names with obfuscated names as keys and unobfuscated names as values.
      */
@@ -27,7 +26,7 @@ public abstract class ParsingContainer implements Closeable {
      * A {@code HashMap} to store parameter names. The outer map uses parent class names as keys, and the inner map uses
      * obfuscated parameter names as keys and arrays of unobfuscated parameter names as values.
      */
-    protected final HashMap<String, HashMap<String, String[]>> parameterNames = new HashMap<>(); // todo
+    public final HashMap<String, HashMap<String, String[]>> parameterNames = new HashMap<>(); // todo
     /**
      * A {@code HashMap} to store field names. The outer map uses parent class names as keys, and the inner map uses
      * obfuscated field names as keys and unobfuscated field names as values.
@@ -150,13 +149,20 @@ public abstract class ParsingContainer implements Closeable {
         return fieldNames;
     }
 
+    public void addAll(MappingContainer other) {
+        classNames.putAll(other.classNames);
+        methodNames.putAll(other.methodNames);
+        fieldNames.putAll(other.fieldNames);
+        parameterNames.putAll(other.parameterNames);
+    }
+
     /**
      * Closes the container by clearing all stored mappings.
      */
-    @Override
     public void close() {
         fieldNames.clear();
         methodNames.clear();
+        parameterNames.clear();
         classNames.clear();
     }
 }
