@@ -9,20 +9,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * {@code LuminaWriter} is a concrete implementation of {@linkplain AbstractWriter} that handles writing
- * Minecraft mapping data to files. It reads data from URLs or files, parses it using the provided parser,
- * and then writes the parsed data into separate files for classes, methods, and fields.
+ * {@link LuminaWriter} is a concrete implementation of {@linkplain AbstractWriter} that handles writing Minecraft
+ * mapping data to files. It reads data from URLs or files, parses it using the provided parser, and then writes the
+ * parsed data into separate files for classes, methods, and fields.
  *
- * <p><b>Note:</b> The use of this class itself is not governed by the Minecraft End User License Agreement
- * (<a href="https://account.mojang.com/documents/minecraft_eula">EULA</a>), but any interaction with
- * Minecraft mappings or data is subject to the <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft
- * EULA</a> and any other applicable licenses.</p>
+ * <p>
+ * <b>Note:</b> The use of this class itself is not governed by the
+ * <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>, but any
+ * interaction with Minecraft mappings or data is subject to the
+ * <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a> and any other applicable
+ * licenses.
+ * </p>
  *
  * @author <b><a href="https://github.com/CadenCCC">Caden</a></b>
  * @see <a href="https://account.mojang.com/documents/minecraft_eula">Minecraft EULA</a>
  * @since 1.0.0
  */
 public class LuminaWriter extends AbstractWriter {
+
     private FileWriter classWriter;
     private FileWriter fieldWriter;
     private FileWriter methodWriter;
@@ -68,6 +72,7 @@ public class LuminaWriter extends AbstractWriter {
      * @param fileLocation the directory where the files will be written.
      * @throws IOException if an error occurs while writing the files.
      */
+    @Override
     public void writeTo(String fileLocation) throws IOException {
         File location = new File(fileLocation);
         if (location.isFile()) {

@@ -10,6 +10,7 @@ import java.util.HashMap;
  * @since 1.0.0
  */
 public class LuminaParser implements IParser { // Proguard parser but to make it into our custom Mappings todo later
+
     private String parentClass;
 
     private int classCounter = 0;
