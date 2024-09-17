@@ -197,6 +197,5 @@ public class LuminaWriter extends AbstractWriter {
             methodWriter.close();
         }
 
-        container.close();
     }
 }
