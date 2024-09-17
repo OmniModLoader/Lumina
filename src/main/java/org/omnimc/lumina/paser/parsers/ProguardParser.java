@@ -1,13 +1,13 @@
 package org.omnimc.lumina.paser.parsers;
 
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 /**
  * <h6>The {@code ProguardParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing ProGuard mapping files.
  * <p>
- * This parser processes lines of mapping data and updates a {@linkplain ParsingContainer} with the parsed class,
+ * This parser processes lines of mapping data and updates a {@linkplain MappingContainer} with the parsed class,
  * method, and field names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
@@ -17,13 +17,13 @@ public class ProguardParser implements IParser {
     private String parentClass;
 
     /**
-     * Parses a single line of ProGuard mapping data and updates the provided {@linkplain ParsingContainer}.
+     * Parses a single line of ProGuard mapping data and updates the provided {@linkplain MappingContainer}.
      *
      * @param line      the line of ProGuard mapping data to be parsed.
-     * @param container the {@linkplain ParsingContainer} to be updated with the parsed data.
+     * @param container the {@linkplain MappingContainer} to be updated with the parsed data.
      */
     @Override
-    public void run(String line, ParsingContainer container) {
+    public void run(String line, MappingContainer container) {
         if (line.isEmpty()) {
             return;
         }
@@ -54,13 +54,13 @@ public class ProguardParser implements IParser {
     }
 
     /**
-     * Processes a class member mapping and updates the {@linkplain ParsingContainer}.
+     * Processes a class member mapping and updates the {@linkplain MappingContainer}.
      *
      * @param parentClass the parent class name.
      * @param line        the line of class member mapping data.
-     * @param container   the {@linkplain ParsingContainer} to be updated with the parsed data.
+     * @param container   the {@linkplain MappingContainer} to be updated with the parsed data.
      */
-    private void processClassMemberMapping(String parentClass, String line, ParsingContainer container) {
+    private void processClassMemberMapping(String parentClass, String line, MappingContainer container) {
         int colonIndex1 = line.indexOf(':');
         int colonIndex2 = colonIndex1 < 0 ? -1 : line.indexOf(':', colonIndex1 + 1);
         int spaceIndex = line.indexOf(' ', colonIndex2 + 2);
@@ -105,13 +105,13 @@ public class ProguardParser implements IParser {
     }
 
     /**
-     * Processes a class mapping and updates the {@linkplain ParsingContainer}.
+     * Processes a class mapping and updates the {@linkplain MappingContainer}.
      *
      * @param line      the line of class mapping data.
-     * @param container the {@linkplain ParsingContainer} to be updated with the parsed data.
+     * @param container the {@linkplain MappingContainer} to be updated with the parsed data.
      * @return the new class name if mapping was successful, otherwise {@code null}.
      */
-    private String processClassMapping(String line, ParsingContainer container) {
+    private String processClassMapping(String line, MappingContainer container) {
         int arrowIndex = line.indexOf("->");
         if (arrowIndex < 0) {
             return null;

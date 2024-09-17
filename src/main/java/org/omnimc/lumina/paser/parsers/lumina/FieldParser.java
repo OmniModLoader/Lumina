@@ -1,13 +1,13 @@
 package org.omnimc.lumina.paser.parsers.lumina;
 
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 /**
  * <h6>The {@code FieldParser} class implements the {@linkplain IParser} interface to provide functionality
  * for parsing field mapping data.
  * <p>
- * This parser processes lines of field mappings and updates a {@linkplain ParsingContainer} with the parsed field
+ * This parser processes lines of field mappings and updates a {@linkplain MappingContainer} with the parsed field
  * names.
  *
  * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
@@ -18,13 +18,13 @@ public class FieldParser implements IParser {
     private String parentClass;
 
     /**
-     * Parses a single line of field mapping data and updates the provided {@linkplain ParsingContainer}.
+     * Parses a single line of field mapping data and updates the provided {@linkplain MappingContainer}.
      *
      * @param line      the line of field mapping data to be parsed.
-     * @param container the {@linkplain ParsingContainer} to be updated with the parsed data.
+     * @param container the {@linkplain MappingContainer} to be updated with the parsed data.
      */
     @Override
-    public void run(String line, ParsingContainer container) {
+    public void run(String line, MappingContainer container) {
         if (line.contains(":")) {
             parentClass = line.replace(":", "");
             return;

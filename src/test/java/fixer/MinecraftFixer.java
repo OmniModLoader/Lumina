@@ -1,7 +1,7 @@
 package fixer;
 
 import org.jetbrains.annotations.NotNull;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 import org.omnimc.lumina.reader.LuminaReader;
 import org.omnimc.lumina.writer.LuminaWriter;
 
@@ -34,20 +34,20 @@ public class MinecraftFixer {
     }
 
     public void fixFiles(String dir) throws IOException {
-        ParsingContainer parsingContainer = luminaReader.readPath(dir);
+        MappingContainer mappingContainer = luminaReader.readPath(dir);
 
-        fixClasses(parsingContainer);
-        fixMethods(parsingContainer);
-        fixFields(parsingContainer);
+        fixClasses(mappingContainer);
+        fixMethods(mappingContainer);
+        fixFields(mappingContainer);
 
-        LuminaWriter writer = new LuminaWriter(parsingContainer);
+        LuminaWriter writer = new LuminaWriter(mappingContainer);
         writer.writeTo(dir);
         writer.flush();
         writer.close();
     }
 
-    private void fixClasses(ParsingContainer parsingContainer) {
-        HashMap<String, String> classTempMap = new HashMap<>(parsingContainer.getClassNames());
+    private void fixClasses(MappingContainer mappingContainer) {
+        HashMap<String, String> classTempMap = new HashMap<>(mappingContainer.getClassNames());
 
         classTempMap.forEach((obfuscatedName, unObfuscatedName) -> { // todo make it so it looks like this "net/minecraft/CLF_000001"
             if (unObfuscatedName.contains(MINECRAFT_MAIN)) {
@@ -59,13 +59,13 @@ public class MinecraftFixer {
                 String result = unObfuscatedName.substring(0, lastIndex);
                 String fixedName = StringRandom.randomClassName(result);
                 customClassMappings.put(unObfuscatedName, fixedName);
-                parsingContainer.addClassName(obfuscatedName, fixedName);
+                mappingContainer.addClassName(obfuscatedName, fixedName);
             }
         });
     }
 
-    private void fixMethods(ParsingContainer parsingContainer) { // todo someone help me
-        HashMap<String, HashMap<String, String>> methodTempMap = new HashMap<>(parsingContainer.getMethodNames());
+    private void fixMethods(MappingContainer mappingContainer) { // todo someone help me
+        HashMap<String, HashMap<String, String>> methodTempMap = new HashMap<>(mappingContainer.getMethodNames());
 
         for (Map.Entry<String, HashMap<String, String>> methodTempMapEntry : methodTempMap.entrySet()) {
             String parentClass = methodTempMapEntry.getKey();
@@ -79,7 +79,7 @@ public class MinecraftFixer {
                 String descriptor = getDescriptorString(split);
 
                 if (shouldSkip(name)) {
-                    parsingContainer.addMethodName(parentClass, name + descriptor, unObfuscatedName);
+                    mappingContainer.addMethodName(parentClass, name + descriptor, unObfuscatedName);
                     //parsingContainer.removeMethodName(parentClass, name + split[0]);
                     continue;
                 }
@@ -87,13 +87,13 @@ public class MinecraftFixer {
                 String hierarchy = customMethodMappings.get(unObfuscatedName + descriptor);
                 if (hierarchy != null) {
                     System.out.println("Hierarchy found! ");
-                    parsingContainer.addMethodName(parentClass, name + descriptor, hierarchy);
+                    mappingContainer.addMethodName(parentClass, name + descriptor, hierarchy);
                     //parsingContainer.removeMethodName(parentClass, name + split[0]);
                 } else {
                     System.out.println("Making a mapping for: " + unObfuscatedName + descriptor);
                     String randomMethodName = StringRandom.randomMethodName();
                     customMethodMappings.put(unObfuscatedName + descriptor, randomMethodName);
-                    parsingContainer.addMethodName(parentClass, name + descriptor, randomMethodName);
+                    mappingContainer.addMethodName(parentClass, name + descriptor, randomMethodName);
                     //parsingContainer.removeMethodName(parentClass, name + split[0]);
                 }
             }
@@ -128,17 +128,17 @@ public class MinecraftFixer {
         return descriptor;
     }
 
-    private void fixFields(ParsingContainer parsingContainer) {
-        HashMap<String, HashMap<String, String>> fieldTempMap = new HashMap<>(parsingContainer.getFieldNames());
+    private void fixFields(MappingContainer mappingContainer) {
+        HashMap<String, HashMap<String, String>> fieldTempMap = new HashMap<>(mappingContainer.getFieldNames());
 
         fieldTempMap.forEach((parentClass, hashMap) -> {
             hashMap.forEach((obfuscatedName, unObfuscatedName) -> { // F_0000001
                 if (obfuscatedName.equals(unObfuscatedName)) {
-                    parsingContainer.addFieldName(parentClass, obfuscatedName, unObfuscatedName);
+                    mappingContainer.addFieldName(parentClass, obfuscatedName, unObfuscatedName);
                     return;
                 }
 
-                parsingContainer.addFieldName(parentClass, obfuscatedName, StringRandom.randomFieldName());
+                mappingContainer.addFieldName(parentClass, obfuscatedName, StringRandom.randomFieldName());
             });
         });
     }

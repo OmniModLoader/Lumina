@@ -24,7 +24,7 @@
 
 package org.omnimc.lumina.reader;
 
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 /**
  * <h6>{@code AbstractReader} lays the groundwork for classes that read Minecraft mappings from different sources.
@@ -38,20 +38,20 @@ import org.omnimc.lumina.paser.ParsingContainer;
 public abstract class AbstractReader {
 
     /**
-     * <h6>Fetches Minecraft mappings from a URL and returns a populated {@linkplain ParsingContainer}.
+     * <h6>Fetches Minecraft mappings from a URL and returns a populated {@linkplain MappingContainer}.
      *
      * @param url the URL to fetch mappings from.
-     * @return a {@linkplain ParsingContainer} filled with the mapping data.
+     * @return a {@linkplain MappingContainer} filled with the mapping data.
      * @throws Exception if there’s an issue fetching or processing the data.
      */
-    public abstract ParsingContainer readURL(String url) throws Exception;
+    public abstract MappingContainer readURL(String url) throws Exception;
 
     /**
-     * <h6>Reads Minecraft mappings from a local directory and returns a populated {@linkplain ParsingContainer}.
+     * <h6>Reads Minecraft mappings from a local directory and returns a populated {@linkplain MappingContainer}.
      *
      * @param path the path to the directory containing the mapping files.
-     * @return a {@linkplain ParsingContainer} filled with the mapping data.
+     * @return a {@linkplain MappingContainer} filled with the mapping data.
      * @throws Exception if there’s an issue reading the files.
      */
-    public abstract ParsingContainer readPath(String path) throws Exception;
+    public abstract MappingContainer readPath(String path) throws Exception;
 }

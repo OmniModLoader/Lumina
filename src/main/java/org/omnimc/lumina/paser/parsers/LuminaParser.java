@@ -1,7 +1,7 @@
 package org.omnimc.lumina.paser.parsers;
 
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 import java.util.HashMap;
 
@@ -25,7 +25,7 @@ public class LuminaParser implements IParser { // Proguard parser but to make it
     private final HashMap<String, String> customMethodMappings = new HashMap<>();
 
     @Override
-    public void run(String line, ParsingContainer container) {
+    public void run(String line, MappingContainer container) {
         if (line.isEmpty()) {
             return;
         }
@@ -56,7 +56,7 @@ public class LuminaParser implements IParser { // Proguard parser but to make it
     }
 
 
-    private String processClassMapping(String line, ParsingContainer container) {
+    private String processClassMapping(String line, MappingContainer container) {
         int arrowIndex = line.indexOf("->");
         if (arrowIndex < 0) {
             return null;
@@ -90,7 +90,7 @@ public class LuminaParser implements IParser { // Proguard parser but to make it
         return newClassName;
     }
 
-    private void processClassMemberMapping(String parentClass, String line, ParsingContainer container) {
+    private void processClassMemberMapping(String parentClass, String line, MappingContainer container) {
         int colonIndex1 = line.indexOf(':');
         int colonIndex2 = colonIndex1 < 0 ? -1 : line.indexOf(':', colonIndex1 + 1);
         int spaceIndex = line.indexOf(' ', colonIndex2 + 2);

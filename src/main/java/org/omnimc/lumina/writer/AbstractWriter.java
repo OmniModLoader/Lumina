@@ -27,13 +27,13 @@ package org.omnimc.lumina.writer;
 import org.jetbrains.annotations.NotNull;
 import org.omnimc.lumina.URLUtil;
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 import java.io.*;
 
 /**
  * {@code AbstractWriter} serves as a base class for writing Minecraft mapping data to files. It handles reading and
- * parsing data from a URL or file into a {@linkplain ParsingContainer}.
+ * parsing data from a URL or file into a {@linkplain MappingContainer}.
  *
  * <p>This class sets up the container with parsed data and provides abstract methods for
  * writing the data to files, flushing the content, and closing resources.</p>
@@ -42,13 +42,13 @@ import java.io.*;
  * @since 1.2.5
  */
 public abstract class AbstractWriter {
-    protected final ParsingContainer container;
+    protected final MappingContainer container;
 
     /**
      * <h6>Constructs an {@code AbstractWriter} by fetching and parsing data from a URL.
      *
      * <p>This constructor reads data from the provided URL, parses it using the given parser,
-     * and stores the results in a new {@linkplain ParsingContainer}.</p>
+     * and stores the results in a new {@linkplain MappingContainer}.</p>
      *
      * @param minecraftURL the URL from which to fetch Minecraft mapping data.
      * @param parser       the parser used to process the data.
@@ -56,8 +56,7 @@ public abstract class AbstractWriter {
      * @throws InterruptedException if the operation is interrupted.
      */
     public AbstractWriter(String minecraftURL, IParser parser) throws IOException, InterruptedException {
-        this(new ParsingContainer() {
-        });
+        this(new MappingContainer());
 
         try (BufferedReader in = new BufferedReader(new InputStreamReader(URLUtil.getInputStreamFromURL(minecraftURL)))) {
             String inputLine;
@@ -71,7 +70,7 @@ public abstract class AbstractWriter {
      * <h6>Constructs an {@code AbstractWriter} by reading and parsing data from a file.
      *
      * <p>This constructor reads data from the specified file, parses it with the provided parser,
-     * and stores the results in a new {@linkplain ParsingContainer}.</p>
+     * and stores the results in a new {@linkplain MappingContainer}.</p>
      *
      * @param mappingsFile the file to read Minecraft mapping data from.
      * @param parser       the parser used to process the data.
@@ -79,8 +78,7 @@ public abstract class AbstractWriter {
      * @throws IllegalArgumentException if the provided file is not valid.
      */
     public AbstractWriter(@NotNull File mappingsFile, @NotNull IParser parser) throws IOException {
-        this(new ParsingContainer() {
-        });
+        this(new MappingContainer());
 
         if (!mappingsFile.isFile()) {
             throw new IllegalArgumentException("`mappingsFile` has to be an actual file not a directory!");
@@ -95,14 +93,14 @@ public abstract class AbstractWriter {
     }
 
     /**
-     * <h6>Constructs an {@code AbstractWriter} with an existing {@linkplain ParsingContainer}.
+     * <h6>Constructs an {@code AbstractWriter} with an existing {@linkplain MappingContainer}.
      *
      * <p>This constructor allows you to initialize the writer with a container that's already populated
      * with parsed data.</p>
      *
      * @param container the container holding the parsed data.
      */
-    public AbstractWriter(@NotNull ParsingContainer container) {
+    public AbstractWriter(@NotNull MappingContainer container) {
         this.container = container;
     }
 

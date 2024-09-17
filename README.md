@@ -25,7 +25,7 @@ This project is still working on some things.
 <dependency>
     <groupId>com.github.OmniModLoader</groupId>
     <artifactId>Lumina</artifactId>
-    <version>1.2.5</version>
+    <version>1.3.5</version>
 </dependency>
 ```
 
@@ -45,7 +45,7 @@ repositories {
 
 ```gradle
 dependencies {
-    implementation 'com.github.OmniModLoader:Lumina:1.2.5'
+    implementation 'com.github.OmniModLoader:Lumina:1.3.5'
 }
 ```
 

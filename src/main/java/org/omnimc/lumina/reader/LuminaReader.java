@@ -26,16 +26,18 @@ package org.omnimc.lumina.reader;
 
 import org.omnimc.lumina.URLUtil;
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 import org.omnimc.lumina.paser.parsers.lumina.ClassParser;
 import org.omnimc.lumina.paser.parsers.lumina.FieldParser;
 import org.omnimc.lumina.paser.parsers.lumina.MethodParser;
 
 import java.io.*;
+import java.net.URI;
+import java.util.HashMap;
 
 /**
  * {@code LuminaReader} is your go-to class for fetching Minecraft mapping data, whether you're pulling it from a URL or
- * digging it out from local files. It helps you load this data into a {@linkplain ParsingContainer}, so you can easily
+ * digging it out from local files. It helps you load this data into a {@linkplain MappingContainer}, so you can easily
  * work with Minecraft mappings.
  *
  * @author <b><a href="https://github.com/CadenCCC">Caden</a></b>
@@ -44,18 +46,18 @@ import java.io.*;
 public class LuminaReader extends AbstractReader {
 
     /**
-     * <h6>Fetches Minecraft mappings from the given URL and returns a fully populated {@linkplain ParsingContainer}.
+     * <h6>Fetches Minecraft mappings from the given URL and returns a fully populated {@linkplain MappingContainer}.
      *
      * <p>This method expects URLs that point to mappings for classes, methods, and fields in the format:
      * <code>{url}/classes.mapping</code>, <code>{url}/methods.mapping</code>, and
      * <code>{url}/fields.mapping</code>.</p>
      *
      * @param url the base URL to fetch the Minecraft mappings from.
-     * @return a {@linkplain ParsingContainer} filled with the mapping data.
+     * @return a {@linkplain MappingContainer} filled with the mapping data.
      * @throws IOException          if something goes wrong with the input/output operations.
      * @throws InterruptedException if the operation is interrupted while fetching data.
      */
-    public ParsingContainer readURL(String url) throws IOException, InterruptedException { // todo
+    public MappingContainer readURL(String url) throws IOException, InterruptedException { // todo
         InputStream classes = URLUtil.getInputStreamFromURL(url + "/classes.mapping");
         InputStream methods = URLUtil.getInputStreamFromURL(url + "/methods.mapping");
         InputStream fields = URLUtil.getInputStreamFromURL(url + "/fields.mapping");
@@ -64,40 +66,47 @@ public class LuminaReader extends AbstractReader {
 
     /**
      * <h6>Reads Minecraft mappings from files located at the given path and returns a populated
-     * {@linkplain ParsingContainer}.
+     * {@linkplain MappingContainer}.
      *
      * <p>This method looks for files named <code>classes.mapping</code>, <code>methods.mapping</code>, and
      * <code>fields.mapping</code> in the specified directory.</p>
      *
      * @param path the directory path where the Minecraft mapping files are located.
-     * @return a {@linkplain ParsingContainer} filled with the mapping data.
+     * @return a {@linkplain MappingContainer} filled with the mapping data.
      * @throws IOException if there’s an issue reading the files.
      */
-    public ParsingContainer readPath(String path) throws IOException {
+    public MappingContainer readPath(String path) throws IOException {
         File location = new File(path);
         if (location.isFile()) {
             location = new File(location.getParent());
         }
 
-        ParsingContainer parsingContainer = new ParsingContainer() {
-        };
+        MappingContainer mappingContainer = new MappingContainer();
 
-        fileLookup(new File(location, "classes.mapping"), new ClassParser(), parsingContainer); // Class Parsing
-        fileLookup(new File(location, "methods.mapping"), new MethodParser(), parsingContainer); // Method Parsing
-        fileLookup(new File(location, "fields.mapping"), new FieldParser(), parsingContainer); // Field Parsing
+        fileLookup(new File(location, "classes.mapping"), new ClassParser(), mappingContainer); // Class Parsing
+        fileLookup(new File(location, "methods.mapping"), new MethodParser(), mappingContainer); // Method Parsing
+        fileLookup(new File(location, "fields.mapping"), new FieldParser(), mappingContainer); // Field Parsing
 
-        return parsingContainer;
+        return mappingContainer;
+    }
+
+    public static MappingContainer read(String path) throws IOException {
+        return new LuminaReader().readPath(path);
+    }
+
+    public static MappingContainer read(URI uri) throws IOException, InterruptedException {
+        return new LuminaReader().readURL(uri.toURL().toString());
     }
 
     /**
-     * <h6>Reads from a file and uses the provided parser to populate the given {@linkplain ParsingContainer}.
+     * <h6>Reads from a file and uses the provided parser to populate the given {@linkplain MappingContainer}.
      *
      * @param location         the file to read data from.
      * @param parser           the parser that will handle the data.
-     * @param parsingContainer the container to fill with parsed data.
+     * @param mappingContainer the container to fill with parsed data.
      * @throws IOException if an error occurs while reading the file.
      */
-    private void fileLookup(File location, IParser parser, ParsingContainer parsingContainer) throws IOException {
+    private void fileLookup(File location, IParser parser, MappingContainer mappingContainer) throws IOException {
         if (!location.exists()) {
             return;
         }
@@ -105,7 +114,7 @@ public class LuminaReader extends AbstractReader {
         try (BufferedReader reader = new BufferedReader(new FileReader(location))) {
             String inputLine;
             while ((inputLine = reader.readLine()) != null) {
-                parser.run(inputLine, parsingContainer);
+                parser.run(inputLine, mappingContainer);
             }
         }
     }

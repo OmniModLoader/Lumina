@@ -2,7 +2,7 @@ package org.omnimc.lumina.writer;
 
 import org.jetbrains.annotations.NotNull;
 import org.omnimc.lumina.paser.IParser;
-import org.omnimc.lumina.paser.ParsingContainer;
+import org.omnimc.lumina.paser.MappingContainer;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -52,11 +52,11 @@ public class LuminaWriter extends AbstractWriter {
     }
 
     /**
-     * <h6>Creates a {@code LuminaWriter} instance with a pre-populated {@linkplain ParsingContainer}.
+     * <h6>Creates a {@code LuminaWriter} instance with a pre-populated {@linkplain MappingContainer}.
      *
      * @param container the container with pre-parsed data.
      */
-    public LuminaWriter(@NotNull ParsingContainer container) {
+    public LuminaWriter(@NotNull MappingContainer container) {
         super(container);
     }
 

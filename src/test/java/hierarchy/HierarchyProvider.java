@@ -1,75 +1,97 @@
-import idea.HierarchyManager;
-import idea.hierarchy.HierarchyVisitor;
-import idea.info.ClassInfo;
-import idea.info.FieldInfo;
-import idea.info.MethodInfo;
+/*
+ * MIT License
+ *
+ * Copyright (c) 2024 OmniMC
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+package hierarchy;
+
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.omnimc.asm.changes.IClassChange;
 import org.omnimc.asm.file.ClassFile;
 import org.omnimc.asm.manager.thread.SafeClassManager;
-import org.omnimc.lumina.paser.ParsingContainer;
-import org.omnimc.lumina.paser.parsers.ProguardParser;
+import org.omnimc.lumina.paser.MappingContainer;
 import org.omnimc.lumina.reader.LuminaReader;
 import org.omnimc.lumina.writer.LuminaWriter;
+import org.omnimc.trix.hierarchy.HierarchyManager;
+import org.omnimc.trix.hierarchy.info.ClassInfo;
+import org.omnimc.trix.hierarchy.info.FieldInfo;
+import org.omnimc.trix.hierarchy.info.MethodInfo;
+import org.omnimc.trix.visitors.hierarchy.HierarchyClassVisitor;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Map;
 
-@SuppressWarnings("NonFinalUtilityClass")
-public class TestMain {
-    private static final String MINECRAFT_JAR = "C:\\Users\\CryroByte\\AppData\\Roaming\\.minecraft\\versions\\1.21\\1.21.jar";
+/**
+ * @author <b><a href=https://github.com/CadenCCC>Caden</a></b>
+ * @since 1.0.0
+ */
+public class HierarchyProvider {
+    private final String minecraftJar;
+    private final String mappingLocation;
 
-    public static void main(String[] args) throws IOException, InterruptedException {
-        final String dir = System.getProperty("user.dir") + "\\run";
-        Path path;
-        if (!Files.exists(path = Path.of(dir))) {
-            Files.createDirectory(path);
-        }
-        System.out.println("output dir = " + dir);
+    private HierarchyManager hierarchyManager;
 
-        //createMappings(dir);
-
-        //createHierarchyMapping(dir);
-
-        ParsingContainer reader = getReader(dir + "\\hierarchy");
-
+    public HierarchyProvider(String minecraftJar, String mappingLocation) {
+        this.minecraftJar = minecraftJar;
+        this.mappingLocation = mappingLocation;
     }
 
-    private static void createHierarchyMapping(String dir) throws IOException {
-        ParsingContainer reader = getReader(dir);
+    public void init() throws IOException {
+        MappingContainer reader = getReader(mappingLocation);
         HierarchyManager hierarchyManager = new HierarchyManager();
         System.out.println(reader.getClassNames().size());
 
         SafeClassManager classManager = new SafeClassManager();
-        classManager.readJarFile(new File(MINECRAFT_JAR));
+        classManager.readJarFile(new File(minecraftJar));
         classManager.applyChanges(((IClassChange) (name, classBytes) -> {
             ClassReader classReader = new ClassReader(classBytes);
             ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-            classReader.accept(new HierarchyVisitor(writer, hierarchyManager, reader), ClassReader.EXPAND_FRAMES);
+            //classReader.accept(new HierarchyClassVisitor(writer, hierarchyManager, reader), ClassReader.EXPAND_FRAMES);
 
             return new ClassFile(name, classBytes);
         }));
         classManager.close();
         hierarchyManager.populateClassFiles();
+        this.hierarchyManager = hierarchyManager;
         System.out.println(hierarchyManager.getClassFiles().size());
 
-        ParsingContainer container = new ParsingContainer() {};
+    }
+
+    public void write() throws IOException {
+        MappingContainer container = new MappingContainer();
 
         populateClassNames(hierarchyManager, container);
         populateMethodNames(hierarchyManager, container);
         populateFieldNames(hierarchyManager, container);
 
         LuminaWriter writer = new LuminaWriter(container);
-        writer.writeTo(dir + "\\hierarchy");
+        writer.writeTo(mappingLocation + "\\hierarchy");
         writer.flush();
         writer.close();
     }
 
-    private static void populateMethodNames(HierarchyManager hierarchyManager, ParsingContainer container) {
+    private void populateMethodNames(HierarchyManager hierarchyManager, MappingContainer container) {
         for (Map.Entry<String, ClassInfo> entry : hierarchyManager.getClassFiles().entrySet()) {
             String obfuscatedClassName = entry.getKey();
             ClassInfo classInfo = entry.getValue();
@@ -88,7 +110,7 @@ public class TestMain {
         }
     }
 
-    private static void populateFieldNames(HierarchyManager hierarchyManager, ParsingContainer container) {
+    private void populateFieldNames(HierarchyManager hierarchyManager, MappingContainer container) {
         for (Map.Entry<String, ClassInfo> entry : hierarchyManager.getClassFiles().entrySet()) {
             String obfuscatedClassName = entry.getKey();
             ClassInfo classInfo = entry.getValue();
@@ -107,7 +129,7 @@ public class TestMain {
         }
     }
 
-    private static void populateClassNames(HierarchyManager hierarchyManager, ParsingContainer container) {
+    private void populateClassNames(HierarchyManager hierarchyManager, MappingContainer container) {
         for (Map.Entry<String, ClassInfo> entry : hierarchyManager.getClassFiles().entrySet()) {
             String obfuscatedName = entry.getKey();
             ClassInfo classInfo = entry.getValue();
@@ -116,16 +138,9 @@ public class TestMain {
         }
     }
 
-    private static ParsingContainer getReader(String path) throws IOException {
+
+    private MappingContainer getReader(String path) throws IOException {
         LuminaReader reader = new LuminaReader();
         return reader.readPath(path);
-    }
-
-
-    private static void createMappings(String path) throws IOException, InterruptedException {
-        LuminaWriter writer = new LuminaWriter("https://piston-data.mojang.com/v1/objects/0530a206839eb1e9b35ec86acbbe394b07a2d9fb/client.txt", new ProguardParser());
-        writer.writeTo(path);
-        writer.flush();
-        writer.close();
     }
 }
